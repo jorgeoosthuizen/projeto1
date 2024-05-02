@@ -1,16 +1,16 @@
 <template>
   <div id="app">
-    <Navbar /> <!-- Include your navigation bar component -->
-    <router-view /> <!-- This is where your other components will be rendered based on the current route -->
+    <NavbarView />
+    <router-view /> 
   </div>
 </template>
 
 <script>
-import Navbar from './components/Navbar.vue'; // Import your navigation bar component
+import NavbarView from './components/NavbarView.vue'; 
 export default {
   name: 'App',
   components: {
-    Navbar, // Register your navigation bar component
+    NavbarView, 
   }
 }
 </script>
