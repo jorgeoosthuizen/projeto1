@@ -1,10 +1,20 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <div id="app">
+    <Navbar /> <!-- Include your navigation bar component -->
+    <router-view /> <!-- This is where your other components will be rendered based on the current route -->
+  </div>
 </template>
+
+<script>
+import Navbar from './components/Navbar.vue'; // Import your navigation bar component
+export default {
+  name: 'App',
+  components: {
+    Navbar, // Register your navigation bar component
+  }
+}
+</script>
+
 
 <style>
 #app {

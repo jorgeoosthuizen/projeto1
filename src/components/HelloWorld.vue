@@ -1,4 +1,7 @@
 <template>
+  <div class="alert alert-primary" role="alert">
+    A simple primary alert—check it out!
+</div>
   <div class="hello">
     <h1>{{ msg }}</h1>
     <p>
