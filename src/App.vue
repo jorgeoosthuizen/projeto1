@@ -1,11 +1,9 @@
 <template>
   <div id="app">
-    <div class="image-container">
-    <img src="" alt="Header Image" class="header-image" />
+    <img src="./assets/background.png" alt="Header Image" class="header-image" />
     <NavbarView />
   </div>
     <router-view/>
-  </div>
 </template>
 
 <script>
@@ -17,7 +15,7 @@ export default {
   },
   data() {
     return {
-      headerImage: 
+      headerImage: './assets/background.png'
     };
   }
 }
@@ -36,19 +34,10 @@ export default {
 .header-image {
   width: 100%;
   height: auto;
-  max-height: 350px;
+  max-height: 300px;
   margin-bottom: 30px;
-  
 }
 
-.image-container {
-  position: relative;
-}
 
-.nav {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-}
+
 </style>

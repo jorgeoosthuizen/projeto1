@@ -1,23 +1,37 @@
 <template>
-  <nav class="navbar navbar-default">
-    <div class="container-fluid align-items-center justify-content-center">
-      <div class="row">
-        <div class="col-3">
-            <router-link to="/"> Pokedex</router-link>
+  <nav class="navbar">
+    <div class="container-fluid">
+        <!-- Left content -->
+        <div class="d-flex flex-grow-1 justify-content-start gap-3">
+          <div>
+            <router-link to="/home">Home</router-link>
+          </div>
+          <div>
+            <router-link to="/pokedex">Pokedex</router-link>
+          </div>
+          <div>
+            <router-link to="/maps">Maps</router-link>
+          </div>
         </div>
-        <div class="col-3">
-            <router-link to="/about">Maps</router-link>
-        </div>
-        <div class="col-3">
+        <!-- Right content -->
+        <div class="d-flex justify-content-end gap-3">
+          <div>
             <router-link to="/registo">Register</router-link>
+          </div>
+          <div>
+            <router-link to="/login">Login</router-link>
+          </div>
         </div>
-        <div class="col-3">
-            <router-link to="/registo">Login</router-link>
-        </div>
-      </div>
     </div>
   </nav>
 </template>
+
+
+
+
+
+
+
 
 <script>
 export default {
@@ -26,14 +40,13 @@ export default {
 </script>
 
 <style scoped>
-
 .navbar {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   padding: 30px;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .navbar a {
