@@ -1,32 +1,36 @@
 <template>
   <nav class="navbar">
     <div class="container-fluid">
-      <!-- Left content -->
-      <div class="d-flex flex-grow-1 justify-content-start gap-3">
+      <div class="d-flex  justify-content-start gap-3">
+
+      </div>
+      <div class="d-flex flex-grow-1 justify-content-center gap-3">
         <div>
-          <button type="button" class="btn btn-outline-dark btn-lg position-relative">
-    <router-link to="/home" class="text-decoration-none">Home</router-link>
-    <span class="pokeball-icon position-absolute top-0 end-0"></span>
-</button>
-
-
-
-
+          <router-link to="/" class="text-decoration-none">
+            <i class="icon-pokeball"></i>Home
+          </router-link>
         </div>
         <div>
-          <button type="button" class="btn btn-outline-dark    btn-lg" data-mdb-ripple-color="#000000"> <router-link to="/pokedex">Pokedex</router-link> <i class="fas fa-download ms-1"></i></button>
+          <router-link to="/pokedex" class="text-decoration-none">
+            <i class="icon-pokedex"></i>Pokedex
+          </router-link>
         </div>
         <div>
-          <button type="button" class="btn btn-outline-dark    btn-lg" data-mdb-ripple-color="#000000"> <router-link to="/maps">Maps</router-link> <i class="fas fa-download ms-1"></i></button>
+          <router-link to="/maps" class="text-decoration-none">
+            <i class="icon-pokemap"></i>Maps
+          </router-link>
         </div>
       </div>
-      <!-- Right content -->
       <div class="d-flex justify-content-end gap-3">
         <div>
-          <button type="button" class="btn btn-outline-dark    btn-lg" data-mdb-ripple-color="#000000"> <router-link to="/register">Register</router-link> <i class="fas fa-download ms-1"></i></button>
+          <router-link to="/registo" class="text-decoration-none"
+            ><i class="icon-trainer"></i>Register</router-link
+          >
         </div>
         <div>
-          <button type="button" class="btn btn-outline-dark    btn-lg" data-mdb-ripple-color="#000000"> <router-link to="/login">Login</router-link> <i class="fas fa-download ms-1"></i></button>
+          <router-link to="/login" class="text-decoration-none"
+            ><i class="icon-trainer2"></i>Login</router-link
+          >
         </div>
       </div>
     </div>
@@ -53,17 +57,55 @@ export default {
   font-weight: bold;
   color: #ffffff;
   text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap:3px;
 }
 
 .navbar a.router-link-exact-active {
   color: #ffffff;
 }
 
-.pokeball-icon {
-    width: 20px; /* Adjust the size of the icon */
-    height: 20px; /* Adjust the size of the icon */
-    background-image: url('../assets/icons/pokeball.png'); /* Path to your icon image */
-    background-size: cover; /* Cover the entire area with the icon */
-    background-position: center; /* Center the icon within the button */
+.img {
+  width: 30px;
+  height: 30px;
+  margin: 3px;
 }
+
+.icon-pokedex {
+  background-image: url("../assets/icons/pokedex.png");
+  background-size: contain; 
+  width: 30px; 
+  height: 30px; 
+  display: inline-block;
+}
+.icon-pokeball {
+  background-image: url("../assets/icons/pokeball.png");
+  background-size: contain; 
+  width: 30px; 
+  height: 30px; 
+  display: inline-block;
+}
+.icon-pokemap {
+  background-image: url("../assets/icons/pokemap.png");
+  background-size: contain; 
+  width: 30px;
+  height: 30px; 
+  display: inline-block;
+}
+.icon-poketrainer {
+  background-image: url("../assets/icons/pokedex.png");
+  background-size: contain; 
+  width: 30px; 
+  height: 30px; 
+  display: inline-block;
+}
+.icon-poketrainer2 {
+  background-image: url("../assets/icons/pokedex.png");
+  background-size: contain; 
+  width: 30px; 
+  height: 30px; 
+  display: inline-block;
+}
+
 </style>
