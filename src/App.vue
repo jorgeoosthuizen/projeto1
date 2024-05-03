@@ -1,7 +1,10 @@
 <template>
   <div id="app">
+    <div class="image-container">
+    <img src="" alt="Header Image" class="header-image" />
     <NavbarView />
-    <router-view /> 
+  </div>
+    <router-view/>
   </div>
 </template>
 
@@ -11,6 +14,11 @@ export default {
   name: 'App',
   components: {
     NavbarView, 
+  },
+  data() {
+    return {
+      headerImage: 
+    };
   }
 }
 </script>
@@ -25,16 +33,22 @@ export default {
   color: #2c3e50;
 }
 
-nav {
-  padding: 30px;
+.header-image {
+  width: 100%;
+  height: auto;
+  max-height: 350px;
+  margin-bottom: 30px;
+  
 }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
+.image-container {
+  position: relative;
 }
 
-nav a.router-link-exact-active {
-  color: #42b983;
+.nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 </style>
