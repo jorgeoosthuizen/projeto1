@@ -13,11 +13,6 @@ export default {
   components: {
     NavbarView,
   },
-  data() {
-    return {
-      headerImage: "./assets/background.png",
-    };
-  },
 };
 </script>
 
@@ -33,7 +28,7 @@ export default {
 .header-image {
   width: 100%;
   height: auto;
-  max-height: 300px;
+  max-height: 119px;
   margin-bottom: 30px;
 }
 </style>
