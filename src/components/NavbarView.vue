@@ -97,15 +97,15 @@ export default {
   height: 30px; 
   display: inline-block;
 }
-.icon-poketrainer {
-  background-image: url("../assets/icons/pokedex.png");
+.icon-trainer {
+  background-image: url("../assets/icons/egg.png");
   background-size: contain; 
   width: 30px; 
   height: 30px; 
   display: inline-block;
 }
-.icon-poketrainer2 {
-  background-image: url("../assets/icons/pokedex.png");
+.icon-trainer2 {
+  background-image: url("../assets/icons/pokemon-trainer.png");
   background-size: contain; 
   width: 30px; 
   height: 30px; 
