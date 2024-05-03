@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <img src="./assets/background.png" alt="Header Image" class="header-image" />
+    <img src="./assets/banner-e930b664-b5f6-4cc0-a09a-623da018ca3b.gif" alt="Header Image" class="header-image" />
     <NavbarView />
   </div>
   <router-view />
@@ -15,7 +15,7 @@ export default {
   },
   data() {
     return {
-      headerImage: "./assets/background.png",
+      headerImage: "./assets/banner-e930b664-b5f6-4cc0-a09a-623da018ca3b.gif",
     };
   },
 };
@@ -33,7 +33,7 @@ export default {
 .header-image {
   width: 100%;
   height: auto;
-  max-height: 300px;
+  max-height: 120px;
   margin-bottom: 30px;
 }
 </style>
