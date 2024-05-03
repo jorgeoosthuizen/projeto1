@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <NavbarView />
+    <router-view/>
   </div>
-  <router-view />
 </template>
 
 <script>
@@ -22,15 +22,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  width: 100%;
+  height: 100%;
 }
 
 
-.container {
-    width: 100%; /* Set container width */
-    height: 119px; /* Set container height */
-    background-image: url('./assets/07-Early-Evening.png'); /* Set background image */
-    background-size:cover; /* Cover the entire container */
-    background-position-y: -548px; /* Center the background image */
-    background-repeat:repeat; /* Prevent background from repeating */
-}
 </style>
