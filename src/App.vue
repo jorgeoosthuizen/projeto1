@@ -3,24 +3,23 @@
     <img src="./assets/background.png" alt="Header Image" class="header-image" />
     <NavbarView />
   </div>
-    <router-view/>
+  <router-view />
 </template>
 
 <script>
-import NavbarView from './components/NavbarView.vue';
+import NavbarView from "./components/NavbarView.vue";
 export default {
-  name: 'App',
+  name: "App",
   components: {
     NavbarView,
   },
   data() {
     return {
-      headerImage: './assets/background.png'
+      headerImage: "./assets/background.png",
     };
-  }
-}
+  },
+};
 </script>
-
 
 <style>
 #app {
@@ -37,7 +36,4 @@ export default {
   max-height: 300px;
   margin-bottom: 30px;
 }
-
-
-
 </style>
