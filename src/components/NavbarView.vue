@@ -4,7 +4,14 @@
       <!-- Left content -->
       <div class="d-flex flex-grow-1 justify-content-start gap-3">
         <div>
-          <button type="button" class="btn     btn-lg" data-mdb-ripple-color="#000000"> <router-link to="/home">Home</router-link><i class="fas fa-download ms-1"></i></button>
+          <button type="button" class="btn btn-outline-dark btn-lg position-relative">
+    <router-link to="/home" class="text-decoration-none">Home</router-link>
+    <span class="pokeball-icon position-absolute top-0 end-0"></span>
+</button>
+
+
+
+
         </div>
         <div>
           <button type="button" class="btn btn-outline-dark    btn-lg" data-mdb-ripple-color="#000000"> <router-link to="/pokedex">Pokedex</router-link> <i class="fas fa-download ms-1"></i></button>
@@ -52,7 +59,11 @@ export default {
   color: #ffffff;
 }
 
-#btnHome{
-  background-color: transparent;
+.pokeball-icon {
+    width: 20px; /* Adjust the size of the icon */
+    height: 20px; /* Adjust the size of the icon */
+    background-image: url('../assets/icons/pokeball.png'); /* Path to your icon image */
+    background-size: cover; /* Cover the entire area with the icon */
+    background-position: center; /* Center the icon within the button */
 }
 </style>
