@@ -1,10 +1,10 @@
 <template>
   <nav class="navbar">
     <div class="container-fluid">
-      <div class="d-flex  justify-content-start gap-3">
-
+      <div class="d-flex justify-content-start align-items-center">
+      <img class="logo" src="../assets/pokebaselogo.png" alt="pokebaselogo">
       </div>
-      <div class="d-flex flex-grow-1 justify-content-center gap-3">
+      <div class="d-flex flex-grow-1 gap-5">
         <div>
           <router-link to="/" class="text-decoration-none">
             <i class="icon-pokeball"></i>Home
@@ -50,7 +50,7 @@ export default {
   left: 0;
   right: 0;
   padding: 30px;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.04);
 }
 
 .navbar a {
@@ -64,6 +64,10 @@ export default {
 
 .navbar a.router-link-exact-active {
   color: #ffffff;
+}
+
+.logo{
+  width: 50%;
 }
 
 .img {
