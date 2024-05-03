@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <img src="./assets/background.png" alt="Header Image" class="header-image" />
     <NavbarView />
   </div>
   <router-view />
@@ -25,10 +24,13 @@ export default {
   color: #2c3e50;
 }
 
-.header-image {
-  width: 100%;
-  height: auto;
-  max-height: 119px;
-  margin-bottom: 30px;
+
+.container {
+    width: 100%; /* Set container width */
+    height: 119px; /* Set container height */
+    background-image: url('./assets/07-Early-Evening.png'); /* Set background image */
+    background-size:cover; /* Cover the entire container */
+    background-position-y: -548px; /* Center the background image */
+    background-repeat:repeat; /* Prevent background from repeating */
 }
 </style>

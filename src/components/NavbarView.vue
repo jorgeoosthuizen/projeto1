@@ -50,7 +50,12 @@ export default {
   left: 0;
   right: 0;
   padding: 30px;
-  background-color: rgba(0, 0, 0, 0.04);
+  background-image: url("../assets/07-Early-Evening.png"); 
+  background-size: cover; 
+  background-position: center; 
+  background-position-y:-600px;
+  background-repeat: no-repeat; 
+ 
 }
 
 .navbar a {
