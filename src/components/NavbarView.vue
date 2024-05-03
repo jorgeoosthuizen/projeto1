@@ -1,37 +1,30 @@
 <template>
   <nav class="navbar">
     <div class="container-fluid">
-        <!-- Left content -->
-        <div class="d-flex flex-grow-1 justify-content-start gap-3">
-          <div>
-            <router-link to="/home">Home</router-link>
-          </div>
-          <div>
-            <router-link to="/pokedex">Pokedex</router-link>
-          </div>
-          <div>
-            <router-link to="/maps">Maps</router-link>
-          </div>
+      <!-- Left content -->
+      <div class="d-flex flex-grow-1 justify-content-start gap-3">
+        <div>
+          <button type="button" class="btn     btn-lg" data-mdb-ripple-color="#000000"> <router-link to="/home">Home</router-link><i class="fas fa-download ms-1"></i></button>
         </div>
-        <!-- Right content -->
-        <div class="d-flex justify-content-end gap-3">
-          <div>
-            <router-link to="/registo">Register</router-link>
-          </div>
-          <div>
-            <router-link to="/login">Login</router-link>
-          </div>
+        <div>
+          <button type="button" class="btn btn-outline-dark    btn-lg" data-mdb-ripple-color="#000000"> <router-link to="/pokedex">Pokedex</router-link> <i class="fas fa-download ms-1"></i></button>
         </div>
+        <div>
+          <button type="button" class="btn btn-outline-dark    btn-lg" data-mdb-ripple-color="#000000"> <router-link to="/maps">Maps</router-link> <i class="fas fa-download ms-1"></i></button>
+        </div>
+      </div>
+      <!-- Right content -->
+      <div class="d-flex justify-content-end gap-3">
+        <div>
+          <button type="button" class="btn btn-outline-dark    btn-lg" data-mdb-ripple-color="#000000"> <router-link to="/register">Register</router-link> <i class="fas fa-download ms-1"></i></button>
+        </div>
+        <div>
+          <button type="button" class="btn btn-outline-dark    btn-lg" data-mdb-ripple-color="#000000"> <router-link to="/login">Login</router-link> <i class="fas fa-download ms-1"></i></button>
+        </div>
+      </div>
     </div>
   </nav>
 </template>
-
-
-
-
-
-
-
 
 <script>
 export default {
@@ -59,4 +52,7 @@ export default {
   color: #ffffff;
 }
 
+#btnHome{
+  background-color: transparent;
+}
 </style>
