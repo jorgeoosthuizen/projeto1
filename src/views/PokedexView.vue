@@ -10,7 +10,7 @@
       />
     </div>
 
-    <div v-if="pokemon" class="mt-3">
+    <div v-if="pokemon !== null" class="mt-3">
       <div class="card" style="width: 40rem;">
         <div class="row no-gutters">
           <div class="col-md-4">
@@ -25,7 +25,7 @@
               <li class="list-group-item">Weight: {{ pokemon.weight }} kg</li>
             </ul>
           </div>
-          <div class="col-md-8 custom-border-left"> 
+          <div class="col-md-8 custom-border-left">
             <div class="card-body">
               <div v-for="stat in pokemon.stats" :key="stat.name" class="mb-2">
                 <span>{{ stat.name }}:</span>
@@ -53,14 +53,9 @@
         </div>
       </div>
     </div>
-
-    <!-- Display error message if applicable -->
     <p v-else class="mt-3">No Pokémon found.</p>
   </div>
 </template>
-
-
-
 
 <script>
 import { ref } from "vue";
@@ -114,15 +109,7 @@ ul {
   list-style-type: none;
 }
 
-
-
-.stat-bar {
-  background-color: green;
-  height: 20px;
-  margin-top: 5px;
-}
-
 .custom-border-left {
-  border-left: 1px solid #ccc; /* Add border between columns */
+  border-left: 1px solid #ccc;
 }
 </style>
