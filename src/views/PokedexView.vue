@@ -27,7 +27,7 @@
               <li v-for="stat in pokemon.stats" :key="stat.name" class="mb-2">
                 <span>{{ stat.name }}:</span>
                 <div class="progress" style="height: 30px; border-radius:0; ">
-                  <div class="progress-bar bg-success " :style="{ width: calculateStatBarWidth(stat.value) } " role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="255"> <span>{{ stat.value }}</span> </div>
+<div class="progress-bar bg-success " :style="{ width: calculateStatBarWidth(stat.value) } " role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="255"> <span><strong>{{ stat.value }}</strong></span></div>
 </div>
               </li>
             </ul>
