@@ -37,7 +37,9 @@
         </div>
       </div>
     </div>
-    <p v-else class="mt-3">No Pokémon found.</p>
+    <div v-if="flag">
+    <p class="mt-3">No Pokémon found.</p>
+  </div>
   </div>
   
 </template>
@@ -47,6 +49,7 @@ import { ref } from "vue";
 
 const searchQuery = ref("");
 const pokemon = ref(null);
+const flag = false;
 
 const searchPokemon = async () => {
   if (searchQuery.value.trim() !== "") {
@@ -89,7 +92,5 @@ ul {
   border-left: 1px solid #ccc;
 }
 
-.oak-img{
-  background-color: transparent
-}
+
 </style>
