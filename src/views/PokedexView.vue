@@ -1,24 +1,15 @@
 <template>
   <div class="container-fluid d-flex flex-column justify-content-center align-items-center">
     <div class="search mb-3">
-      <input
-        type="text"
-        v-model="searchQuery"
-        @input="searchPokemon"
-        placeholder="Enter Pokémon name"
-        class="form-control"
-      />
+      <input type="text" v-model="searchQuery" @input="searchPokemon" placeholder="Enter Pokémon name"
+        class="form-control" />
     </div>
 
     <div v-if="pokemon !== null" class="mt-3">
       <div class="card" style="width: 40rem;">
         <div class="row no-gutters">
           <div class="col-md-4">
-            <img
-              :src="pokemon.official_artwork"
-              :alt="pokemon.name"
-              class="card-img"
-            />
+            <img :src="pokemon.official_artwork" :alt="pokemon.name" class="card-img" />
             <h5 class="card-title mt-2 text-center">{{ pokemon.name }}</h5>
             <ul class="list-group list-group-flush">
               <li class="list-group-item" style="border: none">Height: {{ pokemon.height }} m</li>
@@ -30,14 +21,8 @@
               <div v-for="stat in pokemon.stats" :key="stat.name" class="mb-2">
                 <span>{{ stat.name }}:</span>
                 <div class="progress" style="height: 20px; border-radius: 0;">
-                  <div
-                    class="progress-bar bg-success"
-                    :style="{ width: calculateStatBarWidth(stat.value) }"
-                    role="progressbar"
-                    :aria-valuenow="stat.value"
-                    aria-valuemin="0"
-                    aria-valuemax="255"
-                  >
+                  <div class="progress-bar bg-success" :style="{ width: calculateStatBarWidth(stat.value) }"
+                    role="progressbar" :aria-valuenow="stat.value" aria-valuemin="0" aria-valuemax="255">
                     <span class="sr-only">{{ stat.value }}</span>
                   </div>
                 </div>
