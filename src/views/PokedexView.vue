@@ -6,11 +6,11 @@
     </div>
 
     <div v-if="pokemon !== null" class="mt-3">
-      <div class="card" style="width: 40rem;">
-        <div class="row no-gutters">
+      <div class="card " style="width: 35rem;">
+        <div class="row no-gutters ">
           <div class="col-md-4">
             <img :src="pokemon.official_artwork" :alt="pokemon.name" class="card-img" />
-            <h5 class="card-title mt-2 text-center">{{ pokemon.name }}</h5>
+            <h5 class="card-title mt-2 text-center border-bottom p-3">{{ pokemon.name }}</h5>
             <ul class="list-group list-group-flush">
               <li class="list-group-item" style="border: none">Height: {{ pokemon.height }} m</li>
               <li class="list-group-item">Weight: {{ pokemon.weight }} kg</li>
