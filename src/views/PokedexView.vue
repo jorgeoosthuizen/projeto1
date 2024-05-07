@@ -38,59 +38,47 @@
       </div>
     </div>
     <p v-else class="mt-3">No Pokémon found.</p>
-    <div class="professor">
-      <img src="../assets/professoroak.png" class="oak-img">
-    </div>
   </div>
   
 </template>
 
-<script>
+<script setup>
 import { ref } from "vue";
 
-export default {
-  setup() {
-    const searchQuery = ref("");
-    const pokemon = ref(null);
+const searchQuery = ref("");
+const pokemon = ref(null);
 
-    const searchPokemon = async () => {
-      if (searchQuery.value.trim() !== "") {
-        try {
-          const response = await fetch(
-            `https://pokeapi.co/api/v2/pokemon/${searchQuery.value.toLowerCase()}`
-          );
-          const data = await response.json();
+const searchPokemon = async () => {
+  if (searchQuery.value.trim() !== "") {
+    try {
+      const response = await fetch(
+        `https://pokeapi.co/api/v2/pokemon/${searchQuery.value.toLowerCase()}`
+      );
+      const data = await response.json();
 
-          pokemon.value = {
-            name: data.name,
-            official_artwork:
-              data.sprites.other["official-artwork"].front_default,
-            height: data.height,
-            weight: data.weight,
-            stats: data.stats.map((stat) => ({
-              name: stat.stat.name,
-              value: stat.base_stat,
-            })),
-          };
-        } catch (error) {
-          console.error("Error fetching Pokémon data:", error);
-          pokemon.value = null;
-        }
-      } else {
-        pokemon.value = null;
-      }
-    };
-    const calculateStatBarWidth = (value) => `${(value / 255) * 100}%`;
-
-    return {
-      searchQuery,
-      pokemon,
-      searchPokemon,
-      calculateStatBarWidth,
-    };
-  },
+      pokemon.value = {
+        name: data.name,
+        official_artwork:
+          data.sprites.other["official-artwork"].front_default,
+        height: data.height,
+        weight: data.weight,
+        stats: data.stats.map((stat) => ({
+          name: stat.stat.name,
+          value: stat.base_stat,
+        })),
+      };
+    } catch (error) {
+      console.error("Error fetching Pokémon data:", error);
+      pokemon.value = null;
+    }
+  } else {
+    pokemon.value = null;
+  }
 };
+
+const calculateStatBarWidth = (value) => `${(value / 255) * 100}%`;
 </script>
+
 
 <style scoped>
 ul {
