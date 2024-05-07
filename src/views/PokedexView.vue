@@ -3,8 +3,7 @@
     <div class="search mb-3">
       <input type="text" v-model="searchQuery" @input="searchPokemon" placeholder="Enter Pokémon name"
         class="form-control" />
-    </div>
-
+    </div> 
     <div v-if="pokemon !== null" class="mt-3">
       <div class="card " style="width: 35rem;">
         <div class="row no-gutters ">
@@ -39,7 +38,11 @@
       </div>
     </div>
     <p v-else class="mt-3">No Pokémon found.</p>
+    <div class="professor">
+      <img src="../assets/professoroak.png" class="oak-img">
+    </div>
   </div>
+  
 </template>
 
 <script>
@@ -96,5 +99,9 @@ ul {
 
 .custom-border-left {
   border-left: 1px solid #ccc;
+}
+
+.oak-img{
+  background-color: transparent
 }
 </style>
