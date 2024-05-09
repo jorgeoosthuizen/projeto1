@@ -23,7 +23,7 @@
       </div>
       <div class="col-md-4">
         <div class="card h-100 border-0">
-          <img src="" class="card-img-top" alt="..." />
+          <img src="../assets/homeimages/pokedex.jpg" class="card-img-top" alt="pokedex" />
           <div class="card-body">
             <h5 class="card-title">Card title</h5>
             <p class="card-text">
