@@ -1,9 +1,8 @@
 <template>
   <div id="app">
-    <img src="./assets/background.png" alt="Header Image" class="header-image" />
     <NavbarView />
+    <router-view/>
   </div>
-  <router-view />
 </template>
 
 <script>
@@ -23,12 +22,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  width: 100%;
+  height: 100%;
 }
 
-.header-image {
-  width: 100%;
-  height: auto;
-  max-height: 119px;
-  margin-bottom: 30px;
-}
+
 </style>
