@@ -1,31 +1,58 @@
 <template>
-  <form>
+  <form @submit.prevent="login">
     <div class="container">
       <h1>Login</h1>
       <hr>
       <label for="email"><b>Email</b></label>
-      <input type="text" placeholder="Enter Email" name="email" id="email" required>
+      <input type="text" v-model="email" placeholder="Enter Email" name="email" id="email" required>
 
       <label for="psw"><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
+      <input type="password" v-model="password" placeholder="Enter Password" name="psw" id="psw" required>
 
       <button type="submit" class="registerbtn">Login</button>
     </div>
   </form>
 </template>
 
+<script setup>
+import { ref } from 'vue';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth } from 'firebase/auth';
+import { useRouter } from 'vue-router';
+
+const email = ref('');
+const password = ref('');
+const auth = getAuth();
+const router = useRouter();
+
+
+async function login() {
+  try {
+    await signInWithEmailAndPassword(auth, email.value, password.value);
+    router.push('/');
+  } catch (error) {
+    console.error('Error logging in:', error.message);
+    alert('Login failed. Please check your email and password.');
+  }
+}
+
+
+
+</script>
+
+
 <style scoped>
 
 * {box-sizing: border-box}
 
-/* Add padding to containers */
+
 .container {
   width: 40%;
   height: 40%;
   padding: 16px;
 }
 
-/* Full-width input fields */
+
 input[type=text], input[type=password] {
   width: 100%;
   padding: 15px;
@@ -40,13 +67,13 @@ input[type=text]:focus, input[type=password]:focus {
   outline: none;
 }
 
-/* Overwrite default styles of hr */
+
 hr {
   border: 1px solid #f1f1f1;
   margin-bottom: 25px;
 }
 
-/* Set a style for the submit/register button */
+
 .registerbtn {
   background-color: dodgerblue;
   color: white;
@@ -62,7 +89,7 @@ hr {
   opacity:1;
 }
 
-/* Add a blue text color to links */
+
 a {
   color: dodgerblue;
 }

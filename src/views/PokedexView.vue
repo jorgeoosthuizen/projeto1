@@ -87,7 +87,7 @@ const flag = ref(false);
 const isFavorite = ref(false);
 
 const searchPokemon = async () => {
-  isFavorite.value = false; // Reset isFavorite flag for each search
+  isFavorite.value = false;
 
   flag.value = false;
 
@@ -98,7 +98,6 @@ const searchPokemon = async () => {
       );
       const data = await response.json();
 
-      // Check if the current Pokémon is in favorites
       const querySnapshot = await getDocs(
         query(
           collection(db, "favorites"),
@@ -106,7 +105,7 @@ const searchPokemon = async () => {
         )
       );
       if (!querySnapshot.empty) {
-        isFavorite.value = true; // Set isFavorite to true if found in favorites
+        isFavorite.value = true;
       }
 
       pokemon.value = {
@@ -144,7 +143,6 @@ const toggleFavorite = async () => {
       console.log("Pokemon data:", pokemonData);
 
       if (isFavorite.value) {
-        // Remove from favorites using document ID
         const querySnapshot = await getDocs(
           query(
             collection(db, "favorites"),
@@ -156,10 +154,8 @@ const toggleFavorite = async () => {
           console.log("Pokemon removed from favorites");
         });
       } else {
-        // Add to favorites
         const docRef = await addDoc(collection(db, "favorites"), pokemonData);
         console.log("Pokemon added to favorites with ID: ", docRef.id);
-        // Store the document ID for potential removal later
         pokemonData.documentId = docRef.id;
       }
 
@@ -181,7 +177,6 @@ ul {
 }
 
 .favorite-button {
-  
   background-color: transparent;
   border: none;
   cursor: pointer;
