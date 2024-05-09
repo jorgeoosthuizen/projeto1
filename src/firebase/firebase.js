@@ -1,12 +1,11 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDOyO_bKz3KW2PVuc4wYgmgJ6XrkE8DFgk",
   authDomain: "pokebase-ca29e.firebaseapp.com",
+  databaseURL: "https://pokebase-ca29e-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "pokebase-ca29e",
   storageBucket: "pokebase-ca29e.appspot.com",
   messagingSenderId: "268193697368",
@@ -15,4 +14,9 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-export default db ;
+const db = getFirestore(app); // Initialize Firestore and get a reference to the database
+
+export default db; // Export the initialized Firestore database instance
+
+
+
