@@ -3,7 +3,7 @@
     <div class="row no-gutters">
       <div class="col-md-4">
         <div class="card h-100 border-0">
-          <img src="../assets/homeimages/starters.webp" class="card-img-top" alt="pokedex" />
+          <img src="../assets/homeimages/starters.webp" class="card-img-top" alt="starters" style="width: 100%; height: 500px;" />
           <div class="card-body">
             <h5 class="card-title mb-0">Card title</h5>
             <p class="card-text">
@@ -16,7 +16,7 @@
       </div>
       <div class="col-md-4">
         <div class="card h-100 border-0">
-          <img src="" class="card-img-top" alt="..." />
+          <img src="../assets/homeimages/maps.jpg" class="card-img-top" alt="maps" style="width: 100%; height:500px;" />
           <div class="card-body">
             <h5 class="card-title mb-0">Card title</h5>
             <p class="card-text">
@@ -31,10 +31,10 @@
         <div class="card h-100 border-0">
           <div class="d-flex">
             <div style="width: 50%;">
-              <img src="../assets/homeimages/red.webp" class="card-img-top" alt="red" style="max-width: 80%; height: auto;" />
+              <img src="../assets/homeimages/red.webp" class="card-img-top" alt="red" style="width: 100%; height: 500px;" />
             </div>
             <div style="width: 50%; background-color: white;">
-              <img src="../assets/homeimages/leaf.png" class="card-img-top" alt="leaf" style="max-width: 80%; height: auto;" />
+              <img src="../assets/homeimages/leaf.png" class="card-img-top" alt="leaf" style="width: 100%; height: 500px;" />
             </div>
           </div>
           <div class="card-body">
@@ -50,4 +50,6 @@
     </div>
   </div>
 </template>
+
+
 

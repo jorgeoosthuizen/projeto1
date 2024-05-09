@@ -83,19 +83,23 @@ import {
 const searchQuery = ref("");
 const pokemon = ref(null);
 const flag = ref(false);
-
+const error = ref(null);
 const isFavorite = ref(false);
 
 const searchPokemon = async () => {
   isFavorite.value = false;
-
   flag.value = false;
+  error.value = null;
 
   if (searchQuery.value.trim() !== "") {
     try {
       const response = await fetch(
         `https://pokeapi.co/api/v2/pokemon/${searchQuery.value.toLowerCase()}`
       );
+      if (!response.ok) {
+        throw new Error("Failed to fetch Pokemon data");
+      }
+
       const data = await response.json();
 
       const querySnapshot = await getDocs(
@@ -123,6 +127,7 @@ const searchPokemon = async () => {
       console.error("Error fetching Pokémon data:", error);
       pokemon.value = null;
       flag.value = true;
+      error.value = "Failed to fetch Pokémon data. Please try again.";
     }
   } else {
     pokemon.value = null;
