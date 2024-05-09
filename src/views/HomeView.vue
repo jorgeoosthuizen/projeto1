@@ -4,8 +4,12 @@
       <div class="col-md-4">
         <div class="card h-100 border-0">
           <div class="d-flex">
-            <img src="../assets/homeimages/red.webp" class="card-img-top" alt="red" />
-            <img src="../assets/homeimages/leaf.png" class="card-img-top" alt="leaf" />
+            <div style="width: 50%;">
+              <img src="../assets/homeimages/red.webp" class="card-img-top" alt="red" style="max-width: 80%; height: auto;" />
+            </div>
+            <div style="width: 50%; background-color: white;">
+              <img src="../assets/homeimages/leaf.png" class="card-img-top" alt="leaf" style="max-width: 80%; height: auto;" />
+            </div>
           </div>
           <div class="card-body">
             <h5 class="card-title">Card title</h5>
@@ -13,7 +17,7 @@
               Some quick example text to build on the card title and make up the
               bulk of the card's content.
             </p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+            <router-link to="/pokedex" class="btn btn-primary">Go to Pokedex</router-link>
           </div>
         </div>
       </div>
@@ -26,7 +30,7 @@
               Some quick example text to build on the card title and make up the
               bulk of the card's content.
             </p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+            <a href="./pokedex" class="btn btn-primary">Go somewhere</a>
           </div>
         </div>
       </div>
