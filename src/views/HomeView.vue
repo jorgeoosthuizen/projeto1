@@ -3,8 +3,10 @@
     <div class="row no-gutters">
       <div class="col-md-4">
         <div class="card h-100 border-0">
-          <img src="" class="card-img-top" alt="..." />
-          <img src="" class="card-img-top" alt="..." />
+          <div class="d-flex">
+            <img src="../assets/homeimages/red.webp" class="card-img-top" alt="red" />
+            <img src="../assets/homeimages/leaf.png" class="card-img-top" alt="leaf" />
+          </div>
           <div class="card-body">
             <h5 class="card-title">Card title</h5>
             <p class="card-text">
