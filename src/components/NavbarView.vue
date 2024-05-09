@@ -23,13 +23,18 @@
       </div>
       <div class="d-flex justify-content-end gap-3">
         <div>
-          <router-link to="/registo" class="text-decoration-none"
+          <router-link v-if="!isUserLoggedIn" to="/registo" class="text-decoration-none"
             ><i class="icon-trainer"></i>Register</router-link
           >
         </div>
         <div>
-          <router-link to="/login" class="text-decoration-none"
+          <router-link v-if="!isUserLoggedIn" to="/login" class="text-decoration-none"
             ><i class="icon-trainer2"></i>Login</router-link
+          >
+        </div>
+        <div>
+          <router-link v-if="isUserLoggedIn" to="/profile" class="text-decoration-none"
+            ><i class="icon-trainer"></i>Profile</router-link
           >
         </div>
       </div>
@@ -38,9 +43,24 @@
 </template>
 
 <script>
+import {ref} from 'vue';
+
 export default {
   name: "NavbarView",
+  data() {
+    return {
+      isUserLoggedIn: false,
+    };
+  },
+  created() {
+    // Retrieve the value from localStorage
+    const isUserLoggedIn = ref('')
+    this.isUserLoggedIn = localStorage.getItem('isLogged');
+   
+  },
 };
+
+
 </script>
 
 <style scoped>

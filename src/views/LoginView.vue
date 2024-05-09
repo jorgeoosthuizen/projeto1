@@ -15,20 +15,29 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+
+import { useRouter } from 'vue-router';
+import { ref, watch } from 'vue';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { getAuth } from 'firebase/auth';
-import { useRouter } from 'vue-router';
+
 
 const email = ref('');
 const password = ref('');
 const auth = getAuth();
 const router = useRouter();
 
+const isLogged = ref(localStorage.getItem('isLogged') === 'true');
+
+
+watch(isLogged, newValue => {
+  localStorage.setItem('isLogged', newValue ? 'true' : 'false');
+});
 
 async function login() {
   try {
     await signInWithEmailAndPassword(auth, email.value, password.value);
+    isLogged.value = true;
     router.push('/');
   } catch (error) {
     console.error('Error logging in:', error.message);
@@ -37,13 +46,13 @@ async function login() {
 }
 
 
-
 </script>
 
 
 <style scoped>
-
-* {box-sizing: border-box}
+* {
+  box-sizing: border-box
+}
 
 
 .container {
@@ -53,7 +62,8 @@ async function login() {
 }
 
 
-input[type=text], input[type=password] {
+input[type=text],
+input[type=password] {
   width: 100%;
   padding: 15px;
   margin: 5px 0 22px 0;
@@ -62,7 +72,8 @@ input[type=text], input[type=password] {
   background: #f1f1f1;
 }
 
-input[type=text]:focus, input[type=password]:focus {
+input[type=text]:focus,
+input[type=password]:focus {
   background-color: #ddd;
   outline: none;
 }
@@ -86,12 +97,11 @@ hr {
 }
 
 .registerbtn:hover {
-  opacity:1;
+  opacity: 1;
 }
 
 
 a {
   color: dodgerblue;
 }
-
 </style>
