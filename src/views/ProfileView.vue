@@ -1,34 +1,27 @@
 <template>
-    <div class="profile">
-      <!-- Profile content -->
-      <button @click="logout">Logout</button>
-    </div>
-  </template>
-  
-  <script setup>
-import { useRouter } from 'vue-router';
-import { ref, watch } from 'vue';
+  <div class="profile">
+    <!-- Profile content -->
+    <button @click="logout">Logout</button>
+  </div>
+</template>
 
+<script setup>
+import { useRouter } from "vue-router";
 
 const router = useRouter();
 
-const isLogged = ref();
-
-
-watch(isLogged, newValue => {
-  localStorage.setItem('isLogged', newValue ? 'true' : 'false');
-});
-
-
 async function logout() {
+  // Emitir um evento 'authChanged' com o novo estado de autenticação
+  emitAuthChanged(false);
 
-  isLogged.value = false;
-  
-  localStorage.setItem('isLogged', 'false');
-
-  await router.push('/');
+  await router.push("/");
 }
 
-
-  </script>
-  
+// Função para emitir um evento 'authChanged' com o novo estado de autenticação
+function emitAuthChanged(newValue) {
+  const event = new CustomEvent("authChanged", {
+    detail: newValue,
+  });
+  window.dispatchEvent(event);
+}
+</script>

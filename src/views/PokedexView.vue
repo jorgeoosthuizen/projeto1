@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="container-fluid d-flex flex-column justify-content-center align-items-center"
-  >
+  <div class="container-fluid d-flex flex-column justify-content-center align-items-center">
     <div class="search mb-3">
       <input
         type="text"
@@ -49,10 +47,10 @@
               </div>
             </div>
             <div class="card-foot">
-              <ul class="list-inline">
+              <ul class="list-inline" v-if="isUserAuthenticated()">
                 <li class="list-inline-item">
                   <button class="favorite-button" @click="toggleFavorite">
-                    Add to favorites
+                    {{ isFavorite ? 'Remove from favorites' : 'Add to favorites' }}
                     <span :class="{ yellow: isFavorite }">&#9733;</span>
                   </button>
                 </li>
@@ -70,6 +68,7 @@
 
 <script setup>
 import { ref } from "vue";
+import { getAuth } from "firebase/auth";
 import db from "../firebase/firebase";
 import {
   addDoc,
@@ -80,17 +79,19 @@ import {
   getDocs,
 } from "firebase/firestore";
 
+const auth = getAuth();
+
 const searchQuery = ref("");
 const pokemon = ref(null);
 const flag = ref(false);
 const error = ref(null);
 const isFavorite = ref(false);
 
-const searchPokemon = async () => {
-  isFavorite.value = false;
-  flag.value = false;
-  error.value = null;
+// Verifica se há um usuário autenticado
+const isUserAuthenticated = () => !!auth.currentUser;
 
+const searchPokemon = async () => {
+  error.value = null;
   if (searchQuery.value.trim() !== "") {
     try {
       const response = await fetch(
@@ -102,16 +103,6 @@ const searchPokemon = async () => {
 
       const data = await response.json();
 
-      const querySnapshot = await getDocs(
-        query(
-          collection(db, "favorites"),
-          where("pokemon_name", "==", data.name)
-        )
-      );
-      if (!querySnapshot.empty) {
-        isFavorite.value = true;
-      }
-
       pokemon.value = {
         name: data.name,
         official_artwork: data.sprites.other["official-artwork"].front_default,
@@ -122,6 +113,10 @@ const searchPokemon = async () => {
           value: stat.base_stat,
         })),
       };
+
+      // Verificar se este Pokémon é um favorito do usuário atual
+      isFavorite.value = await isPokemonFavorite(data.name);
+
       flag.value = false;
     } catch (error) {
       console.error("Error fetching Pokémon data:", error);
@@ -138,36 +133,76 @@ const searchPokemon = async () => {
 const calculateStatBarWidth = (value) => `${(value / 255) * 100}%`;
 
 const toggleFavorite = async () => {
+  const user = auth.currentUser;
+  if (!user) {
+    console.error("No authenticated user found.");
+    return;
+  }
+
   if (pokemon.value) {
     try {
-      const pokemonData = {
-        pokemon_name: pokemon.value.name,
-        pokemon__artwork: pokemon.value.official_artwork,
-      };
+      const pokemonName = pokemon.value.name;
+      const userId = user.uid;
 
-      console.log("Pokemon data:", pokemonData);
+      // Consulta para verificar se este Pokémon já é um favorito do usuário atual
+      const querySnapshot = await getDocs(
+        query(
+          collection(db, "favorites"),
+          where("user_id", "==", userId), // Filtrar pelos favoritos do usuário atual
+          where("pokemon_name", "==", pokemonName)
+        )
+      );
 
-      if (isFavorite.value) {
-        const querySnapshot = await getDocs(
-          query(
-            collection(db, "favorites"),
-            where("pokemon_name", "==", pokemonData.pokemon_name)
-          )
-        );
+      if (querySnapshot.empty) {
+        // Se não houver um favorito com este nome para este usuário, adicionamos
+        await addDoc(collection(db, "favorites"), {
+          user_id: userId,
+          pokemon_name: pokemonName,
+          pokemon__artwork: pokemon.value.official_artwork,
+        });
+        console.log("Pokemon added to favorites");
+        // Atualizar isFavorite apenas após a operação de adicionar ser bem-sucedida
+        isFavorite.value = true;
+      } else {
+        // Se já houver um favorito com este nome para este usuário, removemos
         querySnapshot.forEach(async (doc) => {
           await deleteDoc(doc.ref);
           console.log("Pokemon removed from favorites");
         });
-      } else {
-        const docRef = await addDoc(collection(db, "favorites"), pokemonData);
-        console.log("Pokemon added to favorites with ID: ", docRef.id);
-        pokemonData.documentId = docRef.id;
+        // Atualizar isFavorite apenas após a operação de remover ser bem-sucedida
+        isFavorite.value = false;
       }
-
-      isFavorite.value = !isFavorite.value;
     } catch (error) {
       console.error("Error adding/removing Pokémon to/from favorites:", error);
     }
+  } else {
+    // Se o usuário não estiver autenticado, defina isFavorite como false
+    isFavorite.value = false;
+  }
+};
+
+// Função para verificar se um Pokémon é favorito do usuário atual
+const isPokemonFavorite = async (pokemonName) => {
+  const user = auth.currentUser;
+  if (!user) {
+    return false;
+  }
+
+  try {
+    const userId = user.uid;
+
+    const querySnapshot = await getDocs(
+      query(
+        collection(db, "favorites"),
+        where("user_id", "==", userId),
+        where("pokemon_name", "==", pokemonName)
+      )
+    );
+
+    return !querySnapshot.empty;
+  } catch (error) {
+    console.error("Error checking if Pokémon is favorite:", error);
+    return false;
   }
 };
 </script>

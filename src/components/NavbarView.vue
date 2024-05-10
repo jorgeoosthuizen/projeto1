@@ -42,26 +42,28 @@
   </nav>
 </template>
 
-<script>
-import {ref} from 'vue';
+<script setup>
+import { ref, onUnmounted } from 'vue';
 
-export default {
-  name: "NavbarView",
-  data() {
-    return {
-      isUserLoggedIn: false,
-    };
-  },
-  created() {
-    // Retrieve the value from localStorage
-    const isUserLoggedIn = ref('')
-    this.isUserLoggedIn = localStorage.getItem('isLogged');
-   
-  },
-};
+// O estado inicial do usuário não está logado
+const isUserLoggedIn = ref(false);
 
+// Função para lidar com o mudança de estado de autenticação
+function handleAuthChange(event) {
+  isUserLoggedIn.value = event.detail;
+}
 
+// Ouvir o evento 'authChanged' para atualizar o estado de autenticação
+window.addEventListener('authChanged', handleAuthChange);
+
+// Remover o ouvinte do evento 'authChanged' ao desmontar o componente
+onUnmounted(() => {
+  window.removeEventListener('authChanged', handleAuthChange);
+});
 </script>
+
+
+
 
 <style scoped>
 .navbar {

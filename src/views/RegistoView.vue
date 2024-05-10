@@ -24,6 +24,7 @@ import { ref } from 'vue';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
+import { collection } from 'firebase/firestore';
 import db from '../firebase/firebase';
 
 const email = ref('');
@@ -40,7 +41,11 @@ async function register() {
   try {
     const { user } = await createUserWithEmailAndPassword(auth, email.value, password.value);
 
-    await setDoc(doc(db, 'users', user.uid), {
+    // Crie uma referência para a coleção 'users' no Firestore
+    const usersCollectionRef = collection(db, 'users');
+
+    // Adicione os dados do usuário à coleção 'users' usando o UID como identificador
+    await setDoc(doc(usersCollectionRef, user.uid), {
       email: user.email,
     });
 

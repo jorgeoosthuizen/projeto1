@@ -15,38 +15,39 @@
 </template>
 
 <script setup>
-
 import { useRouter } from 'vue-router';
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { getAuth } from 'firebase/auth';
-
 
 const email = ref('');
 const password = ref('');
 const auth = getAuth();
 const router = useRouter();
 
-const isLogged = ref(localStorage.getItem('isLogged') === 'true');
-
-
-watch(isLogged, newValue => {
-  localStorage.setItem('isLogged', newValue ? 'true' : 'false');
-});
-
 async function login() {
   try {
     await signInWithEmailAndPassword(auth, email.value, password.value);
-    isLogged.value = true;
     router.push('/');
+    // Emitir um evento 'authChanged' com o novo estado de autenticação
+    emitAuthChanged(true);
   } catch (error) {
     console.error('Error logging in:', error.message);
     alert('Login failed. Please check your email and password.');
   }
 }
 
+// Função para emitir um evento 'authChanged' com o novo estado de autenticação
+function emitAuthChanged(newValue) {
+  const event = new CustomEvent('authChanged', {
+    detail: newValue
+  });
+  window.dispatchEvent(event);
+}
 
 </script>
+
+
 
 
 <style scoped>
