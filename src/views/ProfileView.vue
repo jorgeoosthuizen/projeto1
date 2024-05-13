@@ -10,8 +10,11 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 
+
+
 async function logout() {
   // Emitir um evento 'authChanged' com o novo estado de autenticação
+  localStorage.setItem('isLogged', 'false');
   emitAuthChanged(false);
 
   await router.push("/");

@@ -47,7 +47,7 @@
               </div>
             </div>
             <div class="card-foot">
-              <ul class="list-inline" v-if="isUserAuthenticated()">
+              <ul class="list-inline" v-if="isUserLogged">
                 <li class="list-inline-item">
                   <button class="favorite-button" @click="toggleFavorite">
                     {{ isFavorite ? 'Remove from favorites' : 'Add to favorites' }}
@@ -67,7 +67,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import { getAuth } from "firebase/auth";
 import db from "../firebase/firebase";
 import {
@@ -86,10 +86,14 @@ const pokemon = ref(null);
 const flag = ref(false);
 const error = ref(null);
 const isFavorite = ref(false);
+const isUserLogged = ref(localStorage.getItem("isLogged") === "true");
 
-// Verifica se há um usuário autenticado
-const isUserAuthenticated = () => !!auth.currentUser;
+watchEffect(() => {
+  isUserLogged.value = !!auth.currentUser;
+  localStorage.setItem("isLogged", isUserLogged.value);
+});
 
+// Function to handle the search for a Pokemon
 const searchPokemon = async () => {
   error.value = null;
   if (searchQuery.value.trim() !== "") {
@@ -114,7 +118,7 @@ const searchPokemon = async () => {
         })),
       };
 
-      // Verificar se este Pokémon é um favorito do usuário atual
+      // Check if this Pokemon is a favorite of the current user
       isFavorite.value = await isPokemonFavorite(data.name);
 
       flag.value = false;
@@ -130,8 +134,10 @@ const searchPokemon = async () => {
   }
 };
 
+// Function to calculate the width of the stat bar
 const calculateStatBarWidth = (value) => `${(value / 255) * 100}%`;
 
+// Function to toggle a Pokemon as favorite
 const toggleFavorite = async () => {
   const user = auth.currentUser;
   if (!user) {
@@ -144,44 +150,44 @@ const toggleFavorite = async () => {
       const pokemonName = pokemon.value.name;
       const userId = user.uid;
 
-      // Consulta para verificar se este Pokémon já é um favorito do usuário atual
+      // Query to check if this Pokemon is already a favorite of the current user
       const querySnapshot = await getDocs(
         query(
           collection(db, "favorites"),
-          where("user_id", "==", userId), // Filtrar pelos favoritos do usuário atual
+          where("user_id", "==", userId),
           where("pokemon_name", "==", pokemonName)
         )
       );
 
       if (querySnapshot.empty) {
-        // Se não houver um favorito com este nome para este usuário, adicionamos
+        // If there is no favorite with this name for this user, we add it
         await addDoc(collection(db, "favorites"), {
           user_id: userId,
           pokemon_name: pokemonName,
           pokemon__artwork: pokemon.value.official_artwork,
         });
         console.log("Pokemon added to favorites");
-        // Atualizar isFavorite apenas após a operação de adicionar ser bem-sucedida
+        // Update isFavorite only after the adding operation is successful
         isFavorite.value = true;
       } else {
-        // Se já houver um favorito com este nome para este usuário, removemos
+        // If there is already a favorite with this name for this user, we remove it
         querySnapshot.forEach(async (doc) => {
           await deleteDoc(doc.ref);
           console.log("Pokemon removed from favorites");
         });
-        // Atualizar isFavorite apenas após a operação de remover ser bem-sucedida
+        // Update isFavorite only after the removing operation is successful
         isFavorite.value = false;
       }
     } catch (error) {
       console.error("Error adding/removing Pokémon to/from favorites:", error);
     }
   } else {
-    // Se o usuário não estiver autenticado, defina isFavorite como false
+    // If the user is not authenticated, set isFavorite to false
     isFavorite.value = false;
   }
 };
 
-// Função para verificar se um Pokémon é favorito do usuário atual
+// Function to check if a Pokemon is favorite of the current user
 const isPokemonFavorite = async (pokemonName) => {
   const user = auth.currentUser;
   if (!user) {
@@ -206,6 +212,7 @@ const isPokemonFavorite = async (pokemonName) => {
   }
 };
 </script>
+
 
 <style scoped>
 ul {

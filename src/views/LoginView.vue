@@ -29,7 +29,7 @@ async function login() {
   try {
     await signInWithEmailAndPassword(auth, email.value, password.value);
     router.push('/');
-    // Emitir um evento 'authChanged' com o novo estado de autenticação
+    localStorage.setItem('isLogged', 'true');
     emitAuthChanged(true);
   } catch (error) {
     console.error('Error logging in:', error.message);
