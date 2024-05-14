@@ -18,14 +18,13 @@
 
 import { useRouter } from 'vue-router';
 import { ref, watch } from 'vue';
-import { signInWithEmailAndPassword } from 'firebase/auth';
 import { getAuth } from 'firebase/auth';
-
+import db from "../firebase/firebase";
+import {login} from '../scripts/dbscripts'
 
 const email = ref('');
 const password = ref('');
-const auth = getAuth();
-const router = useRouter();
+
 
 const isLogged = ref(localStorage.getItem('isLogged') === 'true');
 
@@ -34,17 +33,6 @@ watch(isLogged, newValue => {
   localStorage.setItem('isLogged', newValue ? 'true' : 'false');
 });
 
-async function login() {
-  try {
-    await signInWithEmailAndPassword(auth, email.value, password.value);
-    isLogged.value = true;
-    router.push('/');
-    location.reload()
-  } catch (error) {
-    console.error('Error logging in:', error.message);
-    alert('Login failed. Please check your email and password.');
-  }
-}
 
 
 </script>

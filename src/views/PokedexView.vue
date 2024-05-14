@@ -87,6 +87,7 @@ const error = ref(null);
 const isFavorite = ref(false);
 
 
+
 const isLoggedIn = ref(false);
 
 // Load the value of isLoggedIn from localStorage when the component is mounted
