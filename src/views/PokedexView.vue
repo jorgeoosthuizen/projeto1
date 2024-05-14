@@ -51,7 +51,7 @@
             <div class="card-foot">
               <ul class="list-inline">
                 <li class="list-inline-item">
-                  <button class="favorite-button" @click="toggleFavorite">
+                  <button v-if="isLoggedIn" class="favorite-button" @click="toggleFavorite">
                     Add to favorites
                     <span :class="{ yellow: isFavorite }">&#9733;</span>
                   </button>
@@ -85,6 +85,16 @@ const pokemon = ref(null);
 const flag = ref(false);
 const error = ref(null);
 const isFavorite = ref(false);
+
+
+const isLoggedIn = ref(false);
+
+// Load the value of isLoggedIn from localStorage when the component is mounted
+import { onMounted } from "vue";
+onMounted(() => {
+  const storedValue = localStorage.getItem('isLogged');
+  isLoggedIn.value = storedValue ? JSON.parse(storedValue) : false;
+});
 
 const searchPokemon = async () => {
   isFavorite.value = false;

@@ -26,7 +26,10 @@ async function logout() {
   
   localStorage.setItem('isLogged', 'false');
 
+  
+
   await router.push('/');
+  location.reload()
 }
 
 

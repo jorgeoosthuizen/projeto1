@@ -22,46 +22,41 @@
         </div>
       </div>
       <div class="d-flex justify-content-end gap-3">
-        <div>
-          <router-link v-if="!isUserLoggedIn" to="/registo" class="text-decoration-none"
-            ><i class="icon-trainer"></i>Register</router-link
-          >
+        <div v-if="!isUserLoggedIn">
+          <router-link to="/registo" class="text-decoration-none">
+            <i class="icon-trainer"></i>Register
+          </router-link>
         </div>
-        <div>
-          <router-link v-if="!isUserLoggedIn" to="/login" class="text-decoration-none"
-            ><i class="icon-trainer2"></i>Login</router-link
-          >
+        <div v-if="!isUserLoggedIn">
+          <router-link to="/login" class="text-decoration-none">
+            <i class="icon-trainer2"></i>Login
+          </router-link>
         </div>
-        <div>
-          <router-link v-if="isUserLoggedIn" to="/profile" class="text-decoration-none"
-            ><i class="icon-trainer"></i>Profile</router-link
-          >
+        <div v-if="isUserLoggedIn">
+          <router-link to="/profile" class="text-decoration-none">
+            <i class="icon-trainer"></i>Profile
+          </router-link>
         </div>
       </div>
     </div>
   </nav>
 </template>
 
-<script>
-import {ref} from 'vue';
+<script setup>
+import { ref, onMounted } from 'vue';
 
-export default {
-  name: "NavbarView",
-  data() {
-    return {
-      isUserLoggedIn: false,
-    };
-  },
-  created() {
-    // Retrieve the value from localStorage
-    const isUserLoggedIn = ref('')
-    this.isUserLoggedIn = localStorage.getItem('isLogged');
-   
-  },
-};
+// Define a reactive reference to store the user's login status
+const isUserLoggedIn = ref(false);
 
-
+// Load the user's login status from localStorage when the component is mounted
+onMounted(() => {
+  const storedValue = localStorage.getItem('isLogged');
+  if (storedValue) {
+    isUserLoggedIn.value = JSON.parse(storedValue);
+  }
+});
 </script>
+
 
 <style scoped>
 .navbar {
