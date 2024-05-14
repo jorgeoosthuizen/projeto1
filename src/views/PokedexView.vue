@@ -86,7 +86,7 @@ const pokemon = ref(null);
 const flag = ref(false);
 const error = ref(null);
 const isFavorite = ref(false);
-const isUserLogged = ref(localStorage.getItem("isLogged") === "true");
+const isUserLogged = ref(localStorage.getItem("isLogged"));
 
 watchEffect(() => {
   isUserLogged.value = !!auth.currentUser;
