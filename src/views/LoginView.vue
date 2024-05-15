@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="login">
+  <form @submit.prevent="login(email,password)">
     <div class="container">
       <h1>Login</h1>
       <hr>
@@ -16,16 +16,11 @@
 
 <script setup>
 
-import { useRouter } from 'vue-router';
 import { ref, watch } from 'vue';
-import { getAuth } from 'firebase/auth';
-import db from "../firebase/firebase";
 import {login} from '../scripts/dbscripts'
 
 const email = ref('');
 const password = ref('');
-
-
 const isLogged = ref(localStorage.getItem('isLogged') === 'true');
 
 
