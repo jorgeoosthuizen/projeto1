@@ -23,17 +23,17 @@
       </div>
       <div class="d-flex justify-content-end gap-3">
         <div>
-          <router-link v-if="!isUserLoggedIn" to="/registo" class="text-decoration-none"
+          <router-link v-if="!authStore.isAuthenticated" to="/registo" class="text-decoration-none"
             ><i class="icon-trainer"></i>Register</router-link
           >
         </div>
         <div>
-          <router-link v-if="!isUserLoggedIn" to="/login" class="text-decoration-none"
+          <router-link v-if="!authStore.isAuthenticated" to="/login" class="text-decoration-none"
             ><i class="icon-trainer2"></i>Login</router-link
           >
         </div>
         <div>
-          <router-link v-if="isUserLoggedIn" to="/profile" class="text-decoration-none"
+          <router-link v-if="authStore.isAuthenticated" to="/profile" class="text-decoration-none"
             ><i class="icon-trainer"></i>Profile</router-link
           >
         </div>
@@ -43,23 +43,10 @@
 </template>
 
 <script setup>
-import { ref, onUnmounted } from 'vue';
+import { useAuthStore } from '../store/auth'; // Importe o store do Pinia para autenticação
 
-// O estado inicial do usuário não está logado
-const isUserLoggedIn = ref(false);
+const authStore = useAuthStore(); // Use o store do Pinia para autenticação
 
-// Função para lidar com o mudança de estado de autenticação
-function handleAuthChange(event) {
-  isUserLoggedIn.value = event.detail;
-}
-
-// Ouvir o evento 'authChanged' para atualizar o estado de autenticação
-window.addEventListener('authChanged', handleAuthChange);
-
-// Remover o ouvinte do evento 'authChanged' ao desmontar o componente
-onUnmounted(() => {
-  window.removeEventListener('authChanged', handleAuthChange);
-});
 </script>
 
 

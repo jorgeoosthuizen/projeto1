@@ -7,24 +7,18 @@
 
 <script setup>
 import { useRouter } from "vue-router";
+import { useAuthStore } from "../store/auth"; // Importe o store do Pinia para autenticação
 
 const router = useRouter();
-
-
+const authStore = useAuthStore(); // Use o store do Pinia para autenticação
 
 async function logout() {
-  // Emitir um evento 'authChanged' com o novo estado de autenticação
-  localStorage.setItem('isLogged','false')
-  emitAuthChanged(false);
-  await router.push("/");
-  location.reload();
-}
-
-// Função para emitir um evento 'authChanged' com o novo estado de autenticação
-function emitAuthChanged(newValue) {
-  const event = new CustomEvent('authChanged', {
-    detail: newValue
-  });
-  window.dispatchEvent(event);
+  try {
+    // Chame a ação de logout do store do Pinia
+    await authStore.clearUser();
+    await router.push("/");
+  } catch (error) {
+    console.error("Error logging out:", error.message);
+  }
 }
 </script>

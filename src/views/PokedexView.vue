@@ -68,29 +68,24 @@
 
 <script setup>
 import { ref, watchEffect } from "vue";
-import { getAuth } from "firebase/auth";
-import db from "../firebase/firebase";
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  query,
-  where,
-  getDocs,
-} from "firebase/firestore";
+import { getDocs, query, collection, where, addDoc, deleteDoc } from "firebase/firestore";
+import { useAuthStore } from "../store/auth"; // Import the Pinia store for authentication
+import db from "../firebase/firebase"; // Import your Firebase configuration
 
-const auth = getAuth();
+const authStore = useAuthStore(); // Use the Pinia store for authentication
 
 const searchQuery = ref("");
 const pokemon = ref(null);
 const flag = ref(false);
 const error = ref(null);
 const isFavorite = ref(false);
-const isUserLogged = ref(localStorage.getItem("isLogged"));
 
+// Update the isUserLogged variable with the authentication state from Pinia
+const isUserLogged = ref(authStore.isAuthenticated);
+
+// Watch for changes in the authentication state and update isUserLogged as necessary
 watchEffect(() => {
-  isUserLogged.value = !!auth.currentUser;
-  localStorage.setItem("isLogged", isUserLogged.value);
+  isUserLogged.value = authStore.isAuthenticated;
 });
 
 // Function to handle the search for a Pokemon
@@ -139,7 +134,7 @@ const calculateStatBarWidth = (value) => `${(value / 255) * 100}%`;
 
 // Function to toggle a Pokemon as favorite
 const toggleFavorite = async () => {
-  const user = auth.currentUser;
+  const user = authStore.user; // Get the current user from the store
   if (!user) {
     console.error("No authenticated user found.");
     return;
@@ -189,7 +184,7 @@ const toggleFavorite = async () => {
 
 // Function to check if a Pokemon is favorite of the current user
 const isPokemonFavorite = async (pokemonName) => {
-  const user = auth.currentUser;
+  const user = authStore.user; // Get the current user from the store
   if (!user) {
     return false;
   }
@@ -212,6 +207,7 @@ const isPokemonFavorite = async (pokemonName) => {
   }
 };
 </script>
+
 
 
 <style scoped>

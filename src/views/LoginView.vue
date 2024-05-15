@@ -15,94 +15,26 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
 import { ref } from 'vue';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { getAuth } from 'firebase/auth';
+import { useRouter } from 'vue-router';
+import { useAuthStore} from '../store/auth'; // Importe o store do Pinia
 
 const email = ref('');
 const password = ref('');
-const auth = getAuth();
 const router = useRouter();
+const authStore = useAuthStore(); // Use o store do Pinia
 
 async function login() {
   try {
-    await signInWithEmailAndPassword(auth, email.value, password.value);
-    router.push('/');
-    localStorage.setItem('isLogged', 'true');
-    emitAuthChanged(true);
+    await authStore.login(email.value, password.value); // Chame a ação de login no store do Pinia
+    router.push('/'); // Redirecione após o login
   } catch (error) {
     console.error('Error logging in:', error.message);
     alert('Login failed. Please check your email and password.');
   }
 }
-
-// Função para emitir um evento 'authChanged' com o novo estado de autenticação
-function emitAuthChanged(newValue) {
-  const event = new CustomEvent('authChanged', {
-    detail: newValue
-  });
-  window.dispatchEvent(event);
-}
-
 </script>
 
-
-
-
 <style scoped>
-* {
-  box-sizing: border-box
-}
-
-
-.container {
-  width: 40%;
-  height: 40%;
-  padding: 16px;
-}
-
-
-input[type=text],
-input[type=password] {
-  width: 100%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
-  display: inline-block;
-  border: none;
-  background: #f1f1f1;
-}
-
-input[type=text]:focus,
-input[type=password]:focus {
-  background-color: #ddd;
-  outline: none;
-}
-
-
-hr {
-  border: 1px solid #f1f1f1;
-  margin-bottom: 25px;
-}
-
-
-.registerbtn {
-  background-color: dodgerblue;
-  color: white;
-  padding: 16px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  opacity: 0.9;
-}
-
-.registerbtn:hover {
-  opacity: 1;
-}
-
-
-a {
-  color: dodgerblue;
-}
+/* Seu estilo aqui */
 </style>
