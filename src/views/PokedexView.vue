@@ -1,14 +1,16 @@
 <template>
 <div class="container-fluid">
-    <div class="search-container">
+  
+    <div class="search-container ">
       <input
         type="text"
         v-model="searchQuery"
-        @input="searchPokemon"
+        @keypress.enter="searchPokemon"
         placeholder="Enter Pokémon name"
         class="form-control"
       />
     </div>
+    <h6 class="prompt mt-2">Press enter to search</h6>
     <div v-if="pokemon !== null" class="mt-3 carddiv">
       <div class="card" style="width: 35rem">
         <div class="row no-gutters">
@@ -249,7 +251,7 @@ ul {
 }
 
 .search-container {
-  width: 10%;
+  width: 15%;
   display: flex;
   justify-content: center;
   margin-top: 20px; /* Adjust as needed */
@@ -265,5 +267,9 @@ ul {
   width: 100%;
   display: flex;
   justify-content: center;
+}
+
+.prompt{
+  font-size: 15px;
 }
 </style>

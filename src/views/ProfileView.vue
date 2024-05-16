@@ -6,7 +6,7 @@
         <div class="profile-image-container rounded-circle border border-primary"></div>
       </div>
       
-      <div class="col-md-4">
+      <div class="col-md-5">
         <div class="middle-column">
           <div class="row">
             <div class="col-3">

@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <div id="carouselExampleControls" class="carousel slide position-relative" data-bs-ride="carousel" data-bs-interval="4000">
+    <div id="carouselExampleControls" class="carousel slide position-relative" data-bs-ride="carousel" data-bs-interval="3500">
       <div class="carousel-inner">
         <div class="carousel-item active">
           <img src="../assets/homeimages/starters.webp" class="d-block w-100 image-cover image-top" alt="starters">
@@ -49,23 +49,23 @@
 <style>
   .image-cover {
     object-fit: cover;
-    height: 40vh; /* Set the desired height */
+    height: 40vh; 
   }
   .image-top {
     object-position: top;
   }
 
-  /* Opaque effect */
+  
   .carousel-caption {
-    background-color: rgba(0, 0, 0, 0.5); /* Change 0.5 to control opacity */
-    color: white; /* Text color */
-    padding: 20px; /* Adjust padding as needed */
-    border-radius: 0; /* Remove border-radius */
+    background-color: rgba(0, 0, 0, 0.5); 
+    color: white; 
+    padding: 20px; 
+    border-radius: 0; 
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 100%; /* Occupying full height of the carousel */
+    height: 100%; 
     display: flex;
     flex-direction: column;
     justify-content: center;
