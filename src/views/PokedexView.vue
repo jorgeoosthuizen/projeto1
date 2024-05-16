@@ -1,6 +1,6 @@
 <template>
-  <div class="container-fluid d-flex flex-column justify-content-center align-items-center">
-    <div class="search mb-3">
+<div class="container-fluid">
+    <div class="search-container">
       <input
         type="text"
         v-model="searchQuery"
@@ -9,7 +9,7 @@
         class="form-control"
       />
     </div>
-    <div v-if="pokemon !== null" class="mt-3">
+    <div v-if="pokemon !== null" class="mt-3 carddiv">
       <div class="card" style="width: 35rem">
         <div class="row no-gutters">
           <div class="col-md-4">
@@ -132,7 +132,6 @@ const searchPokemon = async () => {
 // Function to calculate the width of the stat bar
 const calculateStatBarWidth = (value) => `${(value / 255) * 100}%`;
 
-// Function to toggle a Pokemon as favorite
 const toggleFavorite = async () => {
   const user = authStore.user; // Get the current user from the store
   if (!user) {
@@ -140,49 +139,69 @@ const toggleFavorite = async () => {
     return;
   }
 
-  if (pokemon.value) {
-    try {
-      const pokemonName = pokemon.value.name;
-      const userId = user.uid;
+  const pokemonName = pokemon.value?.name;
+  if (!pokemonName) {
+    console.error("No Pokemon selected.");
+    return;
+  }
 
-      // Query to check if this Pokemon is already a favorite of the current user
-      const querySnapshot = await getDocs(
-        query(
-          collection(db, "favorites"),
-          where("user_id", "==", userId),
-          where("pokemon_name", "==", pokemonName)
-        )
+  try {
+    const userId = user.uid;
+
+    // Query to check if the Pokemon is already a favorite of the current user
+    const querySnapshot = await getDocs(
+      query(
+        collection(db, "favorites"),
+        where("user_id", "==", userId),
+        where("pokemon_name", "==", pokemonName)
+      )
+    );
+
+    if (querySnapshot.empty) {
+      // Query to check if the user already has 5 favorites
+      const favoritesQuery = query(
+        collection(db, "favorites"),
+        where("user_id", "==", userId)
       );
+      const favoritesSnapshot = await getDocs(favoritesQuery);
 
-      if (querySnapshot.empty) {
-        // If there is no favorite with this name for this user, we add it
-        await addDoc(collection(db, "favorites"), {
-          user_id: userId,
-          pokemon_name: pokemonName,
-          pokemon__artwork: pokemon.value.official_artwork,
-        });
-        console.log("Pokemon added to favorites");
-        // Update isFavorite only after the adding operation is successful
-        isFavorite.value = true;
-      } else {
-        // If there is already a favorite with this name for this user, we remove it
-        querySnapshot.forEach(async (doc) => {
-          await deleteDoc(doc.ref);
-          console.log("Pokemon removed from favorites");
-        });
-        // Update isFavorite only after the removing operation is successful
-        isFavorite.value = false;
+      if (favoritesSnapshot.size >= 6) {
+        alert("You already have 6 favorites!");
+        return;
       }
-    } catch (error) {
-      console.error("Error adding/removing Pokémon to/from favorites:", error);
+
+      // If there is no favorite with this name for this user, we add it
+      await addDoc(collection(db, "favorites"), {
+        user_id: userId,
+        pokemon_name: pokemonName,
+        pokemon__artwork: pokemon.value.official_artwork,
+      });
+      alert("Pokemon added to favorites");
+
+      // Update isFavorite after adding operation
+      isFavorite.value = true;
+    } else {
+      // If the Pokemon is already a favorite, we remove it
+      querySnapshot.forEach(async (doc) => {
+        try {
+          await deleteDoc(doc.ref);
+          alert("Pokemon removed from favorites");
+          // Update isFavorite after removing operation
+          isFavorite.value = false;
+        } catch (error) {
+          console.error("Error removing Pokémon from favorites:", error);
+        }
+      });
     }
-  } else {
-    // If the user is not authenticated, set isFavorite to false
-    isFavorite.value = false;
+  } catch (error) {
+    console.error("Error toggling Pokémon favorite status:", error);
   }
 };
 
-// Function to check if a Pokemon is favorite of the current user
+
+
+
+
 const isPokemonFavorite = async (pokemonName) => {
   const user = authStore.user; // Get the current user from the store
   if (!user) {
@@ -227,5 +246,24 @@ ul {
 
 .favorite-button .yellow {
   color: yellow;
+}
+
+.search-container {
+  width: 10%;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; /* Adjust as needed */
+}
+
+.container-fluid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.carddiv {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 </style>
