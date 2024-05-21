@@ -1,17 +1,19 @@
 <template>
-  <div
-    class="container-fluid d-flex flex-column justify-content-center align-items-center"
-  >
-    <div class="search mb-3">
+<div class="container-fluid d-flex flex-row justify-content-center ">
+  <div class="image-container">
+    <img src="../assets/oak.jpg"/>
+  </div>
+    <div class="search-container ">
       <input
         type="text"
         v-model="searchQuery"
-        @input="searchPokemon"
+        @keypress.enter="searchPokemon"
         placeholder="Enter Pokémon name"
         class="form-control"
-      />
+      /><h6 class="prompt mt-2">Press enter to search</h6>
     </div>
-    <div v-if="pokemon !== null" class="mt-3">
+    
+    <div v-if="pokemon !== null" class="mt-3 carddiv">
       <div class="card" style="width: 35rem">
         <div class="row no-gutters">
           <div class="col-md-4">
@@ -49,10 +51,10 @@
               </div>
             </div>
             <div class="card-foot">
-              <ul class="list-inline">
+              <ul class="list-inline" v-if="isUserLogged">
                 <li class="list-inline-item">
                   <button class="favorite-button" @click="toggleFavorite">
-                    Add to favorites
+                    {{ isFavorite ? 'Remove from favorites' : 'Add to favorites' }}
                     <span :class="{ yellow: isFavorite }">&#9733;</span>
                   </button>
                 </li>
@@ -69,16 +71,12 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import db from "../firebase/firebase";
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  query,
-  where,
-  getDocs,
-} from "firebase/firestore";
+import { ref, watchEffect } from "vue";
+import { getDocs, query, collection, where, addDoc, deleteDoc } from "firebase/firestore";
+import { useAuthStore } from "../store/auth"; // Import the Pinia store for authentication
+import db from "../firebase/firebase"; // Import your Firebase configuration
+
+const authStore = useAuthStore(); // Use the Pinia store for authentication
 
 const searchQuery = ref("");
 const pokemon = ref(null);
@@ -86,11 +84,17 @@ const flag = ref(false);
 const error = ref(null);
 const isFavorite = ref(false);
 
-const searchPokemon = async () => {
-  isFavorite.value = false;
-  flag.value = false;
-  error.value = null;
+// Update the isUserLogged variable with the authentication state from Pinia
+const isUserLogged = ref(authStore.isAuthenticated);
 
+// Watch for changes in the authentication state and update isUserLogged as necessary
+watchEffect(() => {
+  isUserLogged.value = authStore.isAuthenticated;
+});
+
+// Function to handle the search for a Pokemon
+const searchPokemon = async () => {
+  error.value = null;
   if (searchQuery.value.trim() !== "") {
     try {
       const response = await fetch(
@@ -102,16 +106,6 @@ const searchPokemon = async () => {
 
       const data = await response.json();
 
-      const querySnapshot = await getDocs(
-        query(
-          collection(db, "favorites"),
-          where("pokemon_name", "==", data.name)
-        )
-      );
-      if (!querySnapshot.empty) {
-        isFavorite.value = true;
-      }
-
       pokemon.value = {
         name: data.name,
         official_artwork: data.sprites.other["official-artwork"].front_default,
@@ -122,6 +116,10 @@ const searchPokemon = async () => {
           value: stat.base_stat,
         })),
       };
+
+      // Check if this Pokemon is a favorite of the current user
+      isFavorite.value = await isPokemonFavorite(data.name);
+
       flag.value = false;
     } catch (error) {
       console.error("Error fetching Pokémon data:", error);
@@ -135,42 +133,105 @@ const searchPokemon = async () => {
   }
 };
 
+// Function to calculate the width of the stat bar
 const calculateStatBarWidth = (value) => `${(value / 255) * 100}%`;
 
 const toggleFavorite = async () => {
-  if (pokemon.value) {
-    try {
-      const pokemonData = {
-        pokemon_name: pokemon.value.name,
-        pokemon__artwork: pokemon.value.official_artwork,
-      };
+  const user = authStore.user; // Get the current user from the store
+  if (!user) {
+    console.error("No authenticated user found.");
+    return;
+  }
 
-      console.log("Pokemon data:", pokemonData);
+  const pokemonName = pokemon.value?.name;
+  if (!pokemonName) {
+    console.error("No Pokemon selected.");
+    return;
+  }
 
-      if (isFavorite.value) {
-        const querySnapshot = await getDocs(
-          query(
-            collection(db, "favorites"),
-            where("pokemon_name", "==", pokemonData.pokemon_name)
-          )
-        );
-        querySnapshot.forEach(async (doc) => {
-          await deleteDoc(doc.ref);
-          console.log("Pokemon removed from favorites");
-        });
-      } else {
-        const docRef = await addDoc(collection(db, "favorites"), pokemonData);
-        console.log("Pokemon added to favorites with ID: ", docRef.id);
-        pokemonData.documentId = docRef.id;
+  try {
+    const userId = user.uid;
+
+    // Query to check if the Pokemon is already a favorite of the current user
+    const querySnapshot = await getDocs(
+      query(
+        collection(db, "favorites"),
+        where("user_id", "==", userId),
+        where("pokemon_name", "==", pokemonName)
+      )
+    );
+
+    if (querySnapshot.empty) {
+      // Query to check if the user already has 5 favorites
+      const favoritesQuery = query(
+        collection(db, "favorites"),
+        where("user_id", "==", userId)
+      );
+      const favoritesSnapshot = await getDocs(favoritesQuery);
+
+      if (favoritesSnapshot.size >= 6) {
+        alert("You already have 6 favorites!");
+        return;
       }
 
-      isFavorite.value = !isFavorite.value;
-    } catch (error) {
-      console.error("Error adding/removing Pokémon to/from favorites:", error);
+      // If there is no favorite with this name for this user, we add it
+      await addDoc(collection(db, "favorites"), {
+        user_id: userId,
+        pokemon_name: pokemonName,
+        pokemon__artwork: pokemon.value.official_artwork,
+      });
+      alert("Pokemon added to favorites");
+
+      // Update isFavorite after adding operation
+      isFavorite.value = true;
+    } else {
+      // If the Pokemon is already a favorite, we remove it
+      querySnapshot.forEach(async (doc) => {
+        try {
+          await deleteDoc(doc.ref);
+          alert("Pokemon removed from favorites");
+          // Update isFavorite after removing operation
+          isFavorite.value = false;
+        } catch (error) {
+          console.error("Error removing Pokémon from favorites:", error);
+        }
+      });
     }
+  } catch (error) {
+    console.error("Error toggling Pokémon favorite status:", error);
+  }
+};
+
+
+
+
+
+const isPokemonFavorite = async (pokemonName) => {
+  const user = authStore.user; // Get the current user from the store
+  if (!user) {
+    return false;
+  }
+
+  try {
+    const userId = user.uid;
+
+    const querySnapshot = await getDocs(
+      query(
+        collection(db, "favorites"),
+        where("user_id", "==", userId),
+        where("pokemon_name", "==", pokemonName)
+      )
+    );
+
+    return !querySnapshot.empty;
+  } catch (error) {
+    console.error("Error checking if Pokémon is favorite:", error);
+    return false;
   }
 };
 </script>
+
+
 
 <style scoped>
 ul {
@@ -190,4 +251,24 @@ ul {
 .favorite-button .yellow {
   color: yellow;
 }
+
+.search-container {
+  width: 15%;
+  margin-left: 20px; /* Adjust as needed */
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+.carddiv {
+  width: 100%;
+  justify-content: center;
+}
+
+.prompt{
+  font-size: 15px;
+}
+
+
 </style>

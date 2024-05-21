@@ -21,15 +21,12 @@
 
 <script setup>
 import { ref } from 'vue';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
-import db from '../firebase/firebase';
+import { useAuthStore } from '../store/auth'; // Importe o store do Pinia
 
 const email = ref('');
 const password = ref('');
 const repeatPassword = ref('');
-const auth = getAuth();
+const authStore = useAuthStore(); // Use o store do Pinia
 
 async function register() {
   if (password.value !== repeatPassword.value) {
@@ -38,13 +35,7 @@ async function register() {
   }
 
   try {
-    const { user } = await createUserWithEmailAndPassword(auth, email.value, password.value);
-
-    await setDoc(doc(db, 'users', user.uid), {
-      email: user.email,
-    });
-
-    alert('Registration successful!');
+    await authStore.register(email.value, password.value); // Chame a ação de registro no store do Pinia
   } catch (error) {
     console.error('Error registering user:', error.message);
     alert('Registration failed. Please try again.');

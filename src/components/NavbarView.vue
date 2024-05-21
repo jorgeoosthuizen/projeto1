@@ -23,44 +23,58 @@
       </div>
       <div class="d-flex justify-content-end gap-3">
         <div>
-          <router-link v-if="!isUserLoggedIn" to="/registo" class="text-decoration-none"
+          <router-link
+            v-if="!authStore.isAuthenticated"
+            to="/registo"
+            class="text-decoration-none"
             ><i class="icon-trainer"></i>Register</router-link
           >
         </div>
         <div>
-          <router-link v-if="!isUserLoggedIn" to="/login" class="text-decoration-none"
+          <router-link
+            v-if="!authStore.isAuthenticated"
+            to="/login"
+            class="text-decoration-none"
             ><i class="icon-trainer2"></i>Login</router-link
           >
         </div>
         <div>
-          <router-link v-if="isUserLoggedIn" to="/profile" class="text-decoration-none"
-            ><i class="icon-trainer"></i>Profile</router-link
+          <router-link
+            v-if="authStore.isAuthenticated"
+            to="/profile"
+            class="text-decoration-none"
+            ><i class="icon-crown"></i>Profile</router-link
           >
+        </div>
+        <div>
+          <button
+            v-if="authStore.isAuthenticated"
+            @click="logout()"
+            class="text-decoration-none logout-button"
+          >
+            <i class="icon-logout"></i>Logout
+          </button>
         </div>
       </div>
     </div>
   </nav>
 </template>
 
-<script>
-import {ref} from 'vue';
+<script setup>
+import { useAuthStore } from "../store/auth"; // Importe o store do Pinia para autenticação
+import { useRouter } from "vue-router";
 
-export default {
-  name: "NavbarView",
-  data() {
-    return {
-      isUserLoggedIn: false,
-    };
-  },
-  created() {
-    // Retrieve the value from localStorage
-    const isUserLoggedIn = ref('')
-    this.isUserLoggedIn = localStorage.getItem('isLogged');
-   
-  },
-};
+const authStore = useAuthStore(); // Use o store do Pinia para autenticação
+const router = useRouter();
 
-
+async function logout() {
+  try {
+    await authStore.clearUser(); // Call Pinia logout
+    await router.push("/");
+  } catch (error) {
+    console.error("Error logging out:", error.message);
+  }
+}
 </script>
 
 <style scoped>
@@ -75,7 +89,7 @@ export default {
   background-position: center;
   background-position-y: -595px;
   background-repeat: no-repeat;
-  margin-bottom:20px;
+  margin-bottom: 20px;
 }
 
 .navbar a {
@@ -85,6 +99,17 @@ export default {
   display: flex;
   align-items: center;
   gap: 3px;
+}
+
+.logout-button {
+  font-weight: bold;
+  color: #ffffff;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  background-color: transparent;
+  border:none;
 }
 
 .navbar a.router-link-exact-active {
@@ -131,6 +156,22 @@ export default {
 }
 .icon-trainer2 {
   background-image: url("../assets/icons/pokemon-trainer.png");
+  background-size: contain;
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+}
+
+.icon-crown {
+  background-image: url("../assets/icons/crown.png");
+  background-size: contain;
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+}
+
+.icon-logout {
+  background-image: url("../assets/icons/logout.png");
   background-size: contain;
   width: 30px;
   height: 30px;
