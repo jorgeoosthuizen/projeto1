@@ -34,7 +34,7 @@
 
 
 <script setup>
-import { useAuthStore } from "../store/auth"; // Import Pinia for authentication
+import { useAuthStore } from "../store/auth"; 
 import { ref,  onMounted } from 'vue';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import db from '../firebase/firebase';
@@ -50,7 +50,7 @@ onMounted(async () => {
 
 const getFavorites = async () => {
   const authStore = useAuthStore();
-  const favorites = ref([]); // Favorites reference
+  const favorites = ref([]);
 
   try {
     const userId = authStore.user ? authStore.user.uid : null; // Get current user ID
@@ -63,14 +63,13 @@ const getFavorites = async () => {
     const q = query(collection(db, 'favorites'), where('user_id', '==', userId));
     const querySnapshot = await getDocs(q);
 
-    // Iterate docs and extract data
     querySnapshot.forEach((doc) => {
       const data = doc.data();
       const favorite = {
         pokemonName: data.pokemon_name,
         pokemonArtwork: data.pokemon__artwork
       };
-      favorites.value.push(favorite); // Add favorite to favorite list
+      favorites.value.push(favorite); 
     });
   } catch (error) {
     console.error('Error getting favorites:', error.message);

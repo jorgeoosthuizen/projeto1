@@ -1,8 +1,5 @@
 <template>
-<!-- Footer 1 - Bootstrap Brain Component -->
 <footer class="footer">
-
-<!-- Copyright - Bootstrap Brain Component -->
 <div class="bg-light py-5 py-xl-8 py-xxl-9 border-top border-light">
   <div class="container overflow-hidden">
     <div class="row gy-5 gy-md-0 align-items-md-center">
@@ -11,10 +8,8 @@
           &copy; 2024. All Rights Reserved.
         </div>
         <div class="credits text-secondary text-center text-md-start mt-2 fs-8">
-          
         </div>
       </div>
-
       <div class="col-xs-12 col-md-5 order-0 order-md-1">
         <div class="social-media-wrapper">
           <ul class="list-unstyled m-0 p-0 d-flex justify-content-center justify-content-md-end">
@@ -58,10 +53,8 @@
 
 <style scoped>
 .footer {
- 
   bottom: 0;
   width: 100%;
-  background-color: #f8f9fa; /* Adjust color as needed */
-  /* Add additional styles as needed */
+  background-color: #f8f9fa; 
 }
 </style>

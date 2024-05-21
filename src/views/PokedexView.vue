@@ -1,69 +1,82 @@
 <template>
-<div class="container-fluid d-flex flex-row justify-content-center ">
-  <div class="image-container">
-    <img src="../assets/oak.jpg"/>
-  </div>
-    <div class="search-container ">
+  <div class="container-fluid d-flex flex-column align-items-center mt-4">
+    <div class="search-container">
       <input
         type="text"
         v-model="searchQuery"
         @keypress.enter="searchPokemon"
         placeholder="Enter Pokémon name"
         class="form-control"
-      /><h6 class="prompt mt-2">Press enter to search</h6>
+      />
+      <h6 class="prompt mt-2">Press enter to search</h6>
     </div>
-    
-    <div v-if="pokemon !== null" class="mt-3 carddiv">
-      <div class="card" style="width: 35rem">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img
-              :src="pokemon.official_artwork"
-              :alt="pokemon.name"
-              class="card-img"
-            />
-            <h5 class="card-title mt-2 text-center border-bottom p-3">
-              {{ pokemon.name }}
-            </h5>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item" style="border: none">
-                Height: {{ pokemon.height }} m
-              </li>
-              <li class="list-group-item">Weight: {{ pokemon.weight }} kg</li>
-            </ul>
-          </div>
-          <div class="col-md-8 custom-border-left">
-            <div class="card-body">
-              <div v-for="stat in pokemon.stats" :key="stat.name" class="mb-2">
-                <span>{{ stat.name }}:</span>
-                <div class="progress" style="height: 20px; border-radius: 0">
-                  <div
-                    class="progress-bar bg-success"
-                    :style="{ width: calculateStatBarWidth(stat.value) }"
-                    role="progressbar"
-                    :aria-valuenow="stat.value"
-                    aria-valuemin="0"
-                    aria-valuemax="255"
-                  >
-                    <span class="sr-only">{{ stat.value }}</span>
+
+    <div class="content-container d-flex flex-row justify-content-center mt-3">
+      <div class="image-container">
+        <img src="../assets/oak.jpg" />
+      </div>
+
+      <div v-if="pokemon !== null" class="card-container ml-3">
+        <div class="card" style="width: 35rem">
+          <div class="row no-gutters">
+            <div class="col-md-4">
+              <img
+                :src="pokemon.official_artwork"
+                :alt="pokemon.name"
+                class="card-img"
+              />
+              <h5 class="card-title mt-2 text-center border-bottom p-3">
+                {{ pokemon.name }}
+              </h5>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item" style="border: none">
+                  Height: {{ pokemon.height }} m
+                </li>
+                <li class="list-group-item">Weight: {{ pokemon.weight }} kg</li>
+              </ul>
+            </div>
+            <div class="col-md-8 custom-border-left">
+              <div class="card-body">
+                <div
+                  v-for="stat in pokemon.stats"
+                  :key="stat.name"
+                  class="mb-2"
+                >
+                  <span>{{ stat.name }}:</span>
+                  <div class="progress" style="height: 20px; border-radius: 0">
+                    <div
+                      class="progress-bar bg-success"
+                      :style="{ width: calculateStatBarWidth(stat.value) }"
+                      role="progressbar"
+                      :aria-valuenow="stat.value"
+                      aria-valuemin="0"
+                      aria-valuemax="255"
+                    >
+                      <span class="sr-only">{{ stat.value }}</span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="card-foot">
-              <ul class="list-inline" v-if="isUserLogged">
-                <li class="list-inline-item">
-                  <button class="favorite-button" @click="toggleFavorite">
-                    {{ isFavorite ? 'Remove from favorites' : 'Add to favorites' }}
-                    <span :class="{ yellow: isFavorite }">&#9733;</span>
-                  </button>
-                </li>
-              </ul>
+              <div class="card-foot">
+                <ul class="list-inline" v-if="isUserLogged">
+                  <li class="list-inline-item">
+                    <button class="favorite-button" @click="toggleFavorite">
+                      {{
+                        isFavorite
+                          ? "Remove from favorites"
+                          : "Add to favorites"
+                      }}
+                      <span :class="{ yellow: isFavorite }">&#9733;</span>
+                    </button>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
     <div v-if="flag" class="mt-3">
       <p>No Pokémon found.</p>
     </div>
@@ -72,9 +85,16 @@
 
 <script setup>
 import { ref, watchEffect } from "vue";
-import { getDocs, query, collection, where, addDoc, deleteDoc } from "firebase/firestore";
-import { useAuthStore } from "../store/auth"; // Import the Pinia store for authentication
-import db from "../firebase/firebase"; // Import your Firebase configuration
+import {
+  getDocs,
+  query,
+  collection,
+  where,
+  addDoc,
+  deleteDoc,
+} from "firebase/firestore";
+import { useAuthStore } from "../store/auth"; 
+import db from "../firebase/firebase"; 
 
 const authStore = useAuthStore(); // Use the Pinia store for authentication
 
@@ -117,7 +137,6 @@ const searchPokemon = async () => {
         })),
       };
 
-      // Check if this Pokemon is a favorite of the current user
       isFavorite.value = await isPokemonFavorite(data.name);
 
       flag.value = false;
@@ -174,7 +193,7 @@ const toggleFavorite = async () => {
         return;
       }
 
-      // If there is no favorite with this name for this user, we add it
+      // Add to favorite if not in favorites
       await addDoc(collection(db, "favorites"), {
         user_id: userId,
         pokemon_name: pokemonName,
@@ -202,12 +221,8 @@ const toggleFavorite = async () => {
   }
 };
 
-
-
-
-
 const isPokemonFavorite = async (pokemonName) => {
-  const user = authStore.user; // Get the current user from the store
+  const user = authStore.user;
   if (!user) {
     return false;
   }
@@ -231,8 +246,6 @@ const isPokemonFavorite = async (pokemonName) => {
 };
 </script>
 
-
-
 <style scoped>
 ul {
   list-style-type: none;
@@ -253,22 +266,19 @@ ul {
 }
 
 .search-container {
-  width: 15%;
-  margin-left: 20px; /* Adjust as needed */
-  display: flex;
-  flex-direction: column;
+  width: 10%;
+  text-align: center;
 }
 
-
-
-.carddiv {
-  width: 100%;
-  justify-content: center;
+.card-container {
+  margin-left: 20px; 
 }
 
-.prompt{
+.prompt {
   font-size: 15px;
 }
 
-
+.image-container img {
+  max-width: 100%;
+}
 </style>

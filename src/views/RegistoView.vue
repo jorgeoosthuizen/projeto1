@@ -21,12 +21,12 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useAuthStore } from '../store/auth'; // Importe o store do Pinia
+import { useAuthStore } from '../store/auth'; 
 
 const email = ref('');
 const password = ref('');
 const repeatPassword = ref('');
-const authStore = useAuthStore(); // Use o store do Pinia
+const authStore = useAuthStore(); 
 
 async function register() {
   if (password.value !== repeatPassword.value) {
@@ -35,7 +35,7 @@ async function register() {
   }
 
   try {
-    await authStore.register(email.value, password.value); // Chame a ação de registro no store do Pinia
+    await authStore.register(email.value, password.value);
   } catch (error) {
     console.error('Error registering user:', error.message);
     alert('Registration failed. Please try again.');

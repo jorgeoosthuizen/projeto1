@@ -3,7 +3,7 @@
     <div id="carouselExampleControls" class="carousel slide position-relative" data-bs-ride="carousel" data-bs-interval="3500">
       <div class="carousel-inner">
         <div class="carousel-item active">
-          <img src="../assets/homeimages/starters.webp" class="d-block w-100 image-cover image-top" alt="starters">
+          <img src="../assets/homeimages/hero-img.png" class="d-block w-100 image-cover" alt="starters">
           <div class="carousel-caption">
             <h5>Pokédex</h5>
             <p>Search our Pokédex database with more than 1000 entries!</p>
@@ -43,6 +43,33 @@
         <span class="visually-hidden">Next</span>
       </button>
     </div>
+  </div>
+  <div class="news mt-4">
+    <h2>Latest Pokémon News!</h2>
+    <div class="card border-0" style="width: 100%;">
+  <div class="card-body">
+    <h5 class="card-title">News 1</h5>
+    <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Saepe voluptates illo eos, eligendi aliquam exercitationem odio architecto quo. Labore sunt minus at veniam aperiam odit voluptate voluptas magni iusto quisquam.
+    Molestias tempore quam repellat maxime quaerat reprehenderit, maiores quo, tenetur corporis vero sit eos quas porro! Natus, aliquam molestias. Non tempora qui vel illo id placeat nostrum nam eos omnis.
+    </p>
+    <a href="#" class="card-link">Read more</a>
+  </div>
+</div>
+<div class="card border-0" style="width: 100%;">
+  <div class="card-body">
+    <h5 class="card-title">News 2</h5>
+    <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veniam doloribus veritatis maxime quibusdam accusamus dignissimos? Placeat adipisci tempora a repellendus, esse dolor omnis earum laborum facilis iusto id dolorem eligendi!</p>
+    <a href="#" class="card-link">Read more</a>
+  </div>
+</div>
+<div class="card border-0" style="width: 100%;">
+  <div class="card-body">
+    <h5 class="card-title"></h5>
+    <h6 class="card-subtitle mb-2 text-muted"></h6>
+    <p class="card-text"></p>
+    <a href="#" class="card-link"></a>
+  </div>
+</div>
   </div>
 </template>
 

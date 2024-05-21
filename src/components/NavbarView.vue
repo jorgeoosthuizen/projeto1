@@ -61,15 +61,15 @@
 </template>
 
 <script setup>
-import { useAuthStore } from "../store/auth"; // Importe o store do Pinia para autenticação
+import { useAuthStore } from "../store/auth"; 
 import { useRouter } from "vue-router";
 
-const authStore = useAuthStore(); // Use o store do Pinia para autenticação
+const authStore = useAuthStore(); 
 const router = useRouter();
 
 async function logout() {
   try {
-    await authStore.clearUser(); // Call Pinia logout
+    await authStore.clearUser(); 
     await router.push("/");
   } catch (error) {
     console.error("Error logging out:", error.message);
@@ -89,7 +89,6 @@ async function logout() {
   background-position: center;
   background-position-y: -595px;
   background-repeat: no-repeat;
-  margin-bottom: 20px;
 }
 
 .navbar a {
