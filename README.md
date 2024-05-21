@@ -1,4 +1,4 @@
-# projeto1
+# PokeBase (Projeto 1)
 
 ## Frameworks
 ```
