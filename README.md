@@ -30,3 +30,17 @@ https://pokeapi.co/
 - Página de perfil (após autenticação) com apresentação de pokemons favoritos (persistência de dados).
 - Página Mapas (não funcional).
 - Componente Footer (não funcional).
+
+
+### ATENÇÃO
+```
+Para efetuar os testes necessários é necessário um utilizador autenticado. Para tal utilize a página de registo e introduza um email e password (não necessitam de ser os dados pessoais, podem ser usados dafos "falsos") e efetue login com os mesmos.
+
+Em alternativa utilize o seguintes utilizadores já criados:
+EMAIL: teste1@gmail.com
+PASSWORD: 123456
+
+EMAIL: teste2@gmail.com
+PASSWORD: 123456
+
+```
