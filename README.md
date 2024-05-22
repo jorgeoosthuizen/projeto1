@@ -34,6 +34,7 @@ https://pokeapi.co/
 
 ### ATENÇÃO
 ```
+Para executar a aplicação introduzir "npm run serve" no terminal do VS Code.
 Para efetuar os testes necessários é necessário um utilizador autenticado. Para tal utilize a página de registo e introduza um email e password (não necessitam de ser os dados pessoais, podem ser usados dafos "falsos") e efetue login com os mesmos.
 
 Em alternativa utilize o seguintes utilizadores já criados:
