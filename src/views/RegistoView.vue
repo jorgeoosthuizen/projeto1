@@ -21,12 +21,14 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useAuthStore } from '../store/auth'; 
 
 const email = ref('');
 const password = ref('');
 const repeatPassword = ref('');
-const authStore = useAuthStore(); 
+const authStore = useAuthStore();
+const router = useRouter(); 
 
 async function register() {
   if (password.value !== repeatPassword.value) {
@@ -36,6 +38,7 @@ async function register() {
 
   try {
     await authStore.register(email.value, password.value);
+    router.push('/profile');
   } catch (error) {
     console.error('Error registering user:', error.message);
     alert('Registration failed. Please try again.');
