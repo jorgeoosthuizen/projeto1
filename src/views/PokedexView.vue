@@ -10,7 +10,9 @@
       />
       <h6 class="prompt mt-2">Press enter to search</h6>
     </div>
-
+    <div v-if="flag" class="mt-3">
+      <p>No Pokémon found.</p>
+    </div>
     <div class="content-container d-flex flex-row justify-content-center mt-3">
       <div class="image-container">
         <img src="../assets/oak.jpg" />
@@ -75,10 +77,6 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <div v-if="flag" class="mt-3">
-      <p>No Pokémon found.</p>
     </div>
   </div>
 </template>
@@ -266,7 +264,7 @@ ul {
 }
 
 .search-container {
-  width: 10%;
+  width: 15rem;
   text-align: center;
 }
 
