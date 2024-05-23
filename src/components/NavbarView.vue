@@ -87,7 +87,7 @@ async function logout() {
   background-image: url("../assets/06-Late-Afternoon.png");
   background-size: cover;
   background-position: center;
-  background-position-y: -595px;
+  background-position-y: -495px;
   background-repeat: no-repeat;
 }
 
